@@ -1,11 +1,11 @@
-# game_interface.rb
+# interface.rb
 require 'io/console'
 
 class Interface
   def ask_user_name
     system('clear')
     puts 'INPUT YOU NAME:'
-    gets_whith_esc.chomp.strip.capitalize
+    gets_with_esc.chomp.strip.capitalize
   end
 
   def game_number(number, stake)
@@ -64,9 +64,9 @@ class Interface
     'GAME OVER !'
   end
 
-  def gets_whith_esc
+  def gets_with_esc
     name = ''
-    char = ''
+    # char = ''
     loop do
       char = STDIN.getch
       return '' if char.ord == 27

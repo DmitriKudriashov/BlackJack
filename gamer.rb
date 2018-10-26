@@ -6,7 +6,7 @@ class Gamer
   validate :name, :format, /^[A-Z]{3,}$/i
   validate :balance, :negative
 
-  attr_reader :name, :cards, :bank, :sum, :step, :status, :status_text, :balance
+  attr_reader :name, :cards, :bank, :sum, :step, :status, :status_text, :balance, :hand
 
   def initialize(name)
     @name = name
@@ -16,9 +16,8 @@ class Gamer
   end
 
   def new_game_init
-    @cards = []
-    # @hand = Hand.new
-
+    self.cards = []
+    self.hand = Hand.new
     self.step = :hide
     self.status = :none
   end
@@ -29,19 +28,13 @@ class Gamer
   # end
 
   def calc_sum
-    self.sum = 0
-    cards.each { |card| self.sum += card.cost }
-    cards.map(&:cost).count(1).times do
-      break if self.sum + 10 > 21
-
-      self.sum += 10
-    end
+    self.hand.get cards
+    self.sum = hand.calc_sum
   end
 
   def get_card(card)
     get
-    @cards << card
-    calc_sum
+    self.cards << card
   end
 
   def bet
@@ -89,16 +82,16 @@ class Gamer
     self.status_text = 'VA-BANK !)'
   end
 
-  def try_on_21
-    case self.sum <=> 21
-    when -1
-      :under21
-    when 0
-      :equel21
-    when 1
-      :over21
-    end
-  end
+  # def try_on_21
+  #   case self.sum <=> 21
+  #   when -1
+  #     :under21
+  #   when 0
+  #     :equel21
+  #   when 1
+  #     :over21
+  #   end
+  # end
 
   def cards_list
     list = ''
@@ -112,5 +105,5 @@ class Gamer
 
   private
 
-  attr_writer :sum, :step, :status, :status_text, :balance
+  attr_writer :sum, :cards, :step, :status, :status_text, :balance, :hand
 end

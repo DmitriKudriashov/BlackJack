@@ -28,19 +28,31 @@ module Logistics
     check_sums
   end
 
+  def action_card_next
+    next_card
+    open_cards
+  end
+
   def user_pass
     user.pass
     dealer_next_step
+  end
+
+  def give_cards
+    2.times { user_get_card }
+    2.times { dealer_get_card }
   end
 
   def user_get_card
     new_card = deck.give_out # deck.give_a  #  for debug sum Aces only
     new_card.open!
     user.get_card new_card
+    user.calc_sum
   end
 
   def dealer_get_card
     dealer.get_card deck.give_out
+    dealer.calc_sum
   end
 
   def next_card
@@ -66,8 +78,8 @@ module Logistics
   end
 
   def check_sums
-    user_level = user.try_on_21
-    dealer_level = dealer.try_on_21
+    user_level = user.hand.level
+    dealer_level = dealer.hand.level
     user_loss if user_level == :over21
     user_loss if user_level == :under21 && dealer_level == :equel21
     compare_sums if user_level == :under21 && dealer_level == :under21

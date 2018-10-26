@@ -15,7 +15,7 @@ class Game
 
   def start
     run
-    if user.status == :win
+    if user.status == :win || user.status == :fifty_fifty && user.hand.level == :equel21
       user.lookup
       dealer.lookup
     else
@@ -34,15 +34,17 @@ class Game
     dealer.new_game_init
     bets
     give_cards
-    if user.try_on_21 == :equel21
+    if user.hand.level == :equel21
       dealer_next_step
       open_cards
     end
   end
 
   def information
-    info_user = { gamer: 'USER', name: user.name, step: user.step, cards: user.cards_list, sum: user.sum, balance: user.balance }
-    info_dealer = { gamer: 'DEALER', name: dealer.name, step: dealer.step, cards: dealer.cards_list, sum: view_sum_dealer, balance: dealer.balance }
+    info_user = { gamer: 'USER', name: user.name, step: user.step,
+                  cards: user.cards_list, sum: user.sum, balance: user.balance }
+    info_dealer = { gamer: 'DEALER', name: dealer.name, step: dealer.step,
+                    cards: dealer.cards_list, sum: view_sum_dealer, balance: dealer.balance }
     interface.game_number(number, game_bank)
     interface.gamer_info(info_user)
     interface.devider_double
@@ -88,16 +90,10 @@ class Game
     self.game_bank = user.bet + dealer.bet
   end
 
-  def give_cards
-    2.times { user_get_card }
-    2.times { dealer_get_card }
-  end
-
   def select_from_menu_first(item)
     case item
     when 1
-      next_card
-      open_cards
+      action_card_next
       true
     when 2
       user_pass
@@ -108,11 +104,11 @@ class Game
     end
   end
 
+
   def select_from_menu_second(item)
     case item
     when 1
-      next_card
-      open_cards
+      action_card_next
       true
     when 2
       open_cards
