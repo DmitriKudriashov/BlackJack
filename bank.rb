@@ -21,4 +21,9 @@ class Bank
   def get(money)
     @balance += money
   end
+
+  def bet
+    pay(BET)
+    BET
+  end
 end

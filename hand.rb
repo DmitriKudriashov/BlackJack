@@ -1,10 +1,6 @@
 # hand.rb
 class Hand
-  attr_reader :cards, :sum, :level
-
-  def initialize
-    # @cards = []
-  end
+  attr_reader :cards, :sum
 
   def calc_sum
     self.sum = 0
@@ -18,10 +14,6 @@ class Hand
   end
 
   def level
-    self.level = try_on_21
-  end
-
-  def try_on_21
     case self.sum <=> 21
     when -1
       :under21
@@ -34,5 +26,5 @@ class Hand
 
   private
 
-  attr_writer :cards, :sum, :level
+  attr_writer :cards, :sum
 end

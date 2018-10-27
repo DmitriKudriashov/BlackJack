@@ -4,14 +4,12 @@ class Gamer
 
   validate :name, :presence
   validate :name, :format, /^[A-Z]{3,}$/i
-  validate :balance, :negative
 
-  attr_reader :name, :cards, :bank, :sum, :step, :status, :status_text, :balance, :hand
+  attr_reader :name, :cards, :bank, :sum, :step, :status, :status_text, :hand
 
   def initialize(name)
     @name = name
     @bank =  Bank.new
-    @balance = @bank.balance
     validate!
   end
 
@@ -21,11 +19,6 @@ class Gamer
     self.step = :hide
     self.status = :none
   end
-
-  # # for code debug only! reserved!
-  # def accept_sum=(value)
-  #   self.sum = value
-  # end
 
   def calc_sum
     self.hand.get cards
@@ -37,18 +30,8 @@ class Gamer
     self.cards << card
   end
 
-  def bet
-    self.step = :bet
-    self.balance = bank.pay(Bank::BET) if valid?
-    Bank::BET
-  end
-
   def bet_return
-    self.balance = bank.get(Bank::BET)
-  end
-
-  def change_bank(value)
-    self.balance = bank.get(value) if valid?
+    bank.get(Bank::BET)
   end
 
   def pass
@@ -82,17 +65,6 @@ class Gamer
     self.status_text = 'VA-BANK !)'
   end
 
-  # def try_on_21
-  #   case self.sum <=> 21
-  #   when -1
-  #     :under21
-  #   when 0
-  #     :equel21
-  #   when 1
-  #     :over21
-  #   end
-  # end
-
   def cards_list
     list = ''
     cards.each { |card| list += image(card) }
@@ -106,7 +78,8 @@ class Gamer
   def make_step(value)
     self.step = value
   end
+
   private
 
-  attr_writer :sum, :cards, :step, :status, :status_text, :balance, :hand
+  attr_writer :sum, :cards, :step, :status, :status_text, :hand
 end

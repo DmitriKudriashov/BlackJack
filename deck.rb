@@ -5,8 +5,7 @@ class Deck
   def initialize
     @cards = []
     create_deck_cards
-    3.times { @cards.shuffle! } # перемешать карты 3 раза!
-    # create_arr_a # for debug sum Aces only
+    3.times { @cards.shuffle! }
   end
 
   def create_deck_cards
@@ -18,17 +17,4 @@ class Deck
   def give_out
     cards.shift
   end
-
-  # for debug sum Aces only
-  # def create_arr_a
-  #   @aces = []
-  #   Card::SUITES.each do |suit|
-  #     @aces << Card.new('A', suit, 1)
-  #   end
-  # end
-
-  # for debug sum Aces only
-  # def give_a
-  #   @aces.shift
-  # end
 end

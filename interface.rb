@@ -66,7 +66,6 @@ class Interface
 
   def gets_with_esc
     name = ''
-    # char = ''
     loop do
       char = STDIN.getch
       return '' if char.ord == 27

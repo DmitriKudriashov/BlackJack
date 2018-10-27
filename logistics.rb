@@ -3,13 +3,14 @@ module Logistics
   def user_loss
     user.loss
     dealer.win
-    dealer.change_bank(game_bank)
+    # dealer.change_bank(game_bank)
+    dealer.bank.get(game_bank)
     self.game_bank = 0
   end
 
   def user_win
     user.win
-    user.change_bank(game_bank)
+    user.bank.get(game_bank)
     dealer.loss
     self.game_bank = 0
   end
@@ -44,7 +45,7 @@ module Logistics
   end
 
   def user_get_card
-    new_card = deck.give_out # deck.give_a  #  for debug sum Aces only
+    new_card = deck.give_out
     new_card.open!
     user.get_card new_card
     user.calc_sum
@@ -89,12 +90,12 @@ module Logistics
   end
 
   def game_over?
-    raise interface.msg_game_over if user.balance < Bank::BET || dealer.balance < Bank::BET
+    raise interface.msg_game_over if user.bank.balance < Bank::BET || dealer.bank.balance < Bank::BET
 
     false
   rescue StandardError => err
-    interface.message_ballance(user.name, user.balance, err) if user.balance < Bank::BET
-    interface.message_ballance(dealer.name, dealer.balance, err) if dealer.balance < Bank::BET
+    interface.message_ballance(user.name, user.bank.balance, err) if user.bank.balance < Bank::BET
+    interface.message_ballance(dealer.name, dealer.bank.balance, err) if dealer.bank.balance < Bank::BET
     true
   end
 end
