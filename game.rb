@@ -53,35 +53,6 @@ class Game
     interface.control_sum(game_bank + user.balance + dealer.balance)
   end
 
-  def menu_view
-    interface.menu_view_head
-    interface.select_from menu
-    STDIN.getch
-  end
-
-  def menu
-    user.step == :pass ? menu_second : menu_first
-  end
-
-  def menu_first
-    ['Get card',
-     'Pass',
-     'Open cards']
-  end
-
-  def menu_second
-    [menu_first.first, menu_first.last]
-  end
-
-  def action_from_menu
-    loop do
-      information
-      item = menu_view
-      break if item.ord == 27 || item.empty?
-      break if case_menu(item.to_i)
-    end
-  end
-
   def view_sum_dealer
     dealer.lookup? ? dealer.sum.to_s : '***'
   end
@@ -90,33 +61,37 @@ class Game
     self.game_bank = user.bet + dealer.bet
   end
 
-  def select_from_menu_first(item)
-    case item
-    when 1
-      action_card_next
-      true
-    when 2
-      user_pass
-      false
-    when 3
-      open_cards
-      true
+  def actions_init
+    @actions = {get: ['Get card', 'action_card_next'],
+               pass: ['Pass','user_pass'],
+               lookup:['Open cards', 'open_cards']}
+  end
+
+  def menu_items
+    menu_names = []
+    @actions.each_value { |item| menu_names <<  item.first }
+    menu_names
+  end
+
+  def action_from_menu
+    actions_init
+    loop do
+      information
+      interface.menu_head
+      interface.select_from menu_items
+      item = STDIN.getch
+      break if item.ord == 27 || item.empty?
+      action_by item.to_i
+      break if user.lookup?
+      @actions.delete(:pass) if user.step == :pass
     end
   end
 
-
-  def select_from_menu_second(item)
-    case item
-    when 1
-      action_card_next
-      true
-    when 2
-      open_cards
-      true
+  def action_by(item)
+    if item.between?(1,@actions.keys.size)
+      new_step = @actions.keys[item - 1]
+      user.make_step new_step
+      eval(@actions[new_step].last)
     end
-  end
-
-  def case_menu(item)
-    user.step == :pass ? select_from_menu_second(item) : select_from_menu_first(item)
   end
 end

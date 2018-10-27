@@ -103,6 +103,9 @@ class Gamer
     card.open? || step == :lookup ? "|#{card.name}| " : '| * | '
   end
 
+  def make_step(value)
+    self.step = value
+  end
   private
 
   attr_writer :sum, :cards, :step, :status, :status_text, :balance, :hand

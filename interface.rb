@@ -35,7 +35,7 @@ class Interface
     puts "\n #{'-' * 50} \n #{' ' * 15}  #{status_text} \n #{'-' * 50} "
   end
 
-  def menu_view_head
+  def menu_head
     devider_simple
     puts '       Select Action  ( <ESC> - Return )'
     devider_simple
