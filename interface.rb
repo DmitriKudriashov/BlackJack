@@ -37,7 +37,7 @@ class Interface
 
   def menu_head
     devider_simple
-    puts '       Select Action  ( <ESC> - Return )'
+    puts '       Select Action '
     devider_simple
   end
 

@@ -76,8 +76,6 @@ class Game
       interface.menu_head
       interface.select_from menu_items
       item = STDIN.getch
-      break if item.ord == 27 || item.empty?
-
       action_by item.to_i
       break if user.lookup?
 
