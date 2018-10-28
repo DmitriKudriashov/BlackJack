@@ -26,4 +26,8 @@ class Bank
     pay(BET)
     BET
   end
+
+  def bet_return
+    get(BET)
+  end
 end

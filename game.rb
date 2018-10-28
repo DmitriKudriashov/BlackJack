@@ -42,9 +42,9 @@ class Game
 
   def information
     info_user = { gamer: 'USER', name: user.name, step: user.step,
-                  cards: user.cards_list, sum: user.sum, balance: user.bank.balance }
+                  cards: user.hand.cards_list, sum: user.hand.sum, balance: user.bank.balance }
     info_dealer = { gamer: 'DEALER', name: dealer.name, step: dealer.step,
-                    cards: dealer.cards_list, sum: view_sum_dealer, balance: dealer.bank.balance }
+                    cards: dealer.hand.cards_list, sum: view_sum_dealer, balance: dealer.bank.balance }
     interface.game_number(number, game_bank)
     interface.gamer_info(info_user)
     interface.devider_double
@@ -54,7 +54,7 @@ class Game
   end
 
   def view_sum_dealer
-    dealer.lookup? ? dealer.sum.to_s : '***'
+    dealer.lookup? ? dealer.hand.sum.to_s : '***'
   end
 
   def actions_init

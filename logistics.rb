@@ -3,7 +3,6 @@ module Logistics
   def user_loss
     user.loss
     dealer.win
-    # dealer.change_bank(game_bank)
     dealer.bank.get(game_bank)
     self.game_bank = 0
   end
@@ -18,14 +17,15 @@ module Logistics
   def user_fifty_fifty
     user.fifty_fifty
     dealer.fifty_fifty
-    user.bet_return
-    dealer.bet_return
+    user.bank.bet_return
+    dealer.bank.bet_return
     self.game_bank = 0
   end
 
   def open_cards
     user.lookup
     dealer.lookup
+    dealer.hand.open_cards
     check_sums
   end
 
@@ -40,35 +40,36 @@ module Logistics
   end
 
   def give_cards
+    user.get
     2.times { user_get_card }
+    dealer.get
     2.times { dealer_get_card }
   end
 
   def user_get_card
     new_card = deck.give_out
     new_card.open!
-    user.get_card new_card
-    user.calc_sum
+    user.hand.get_card new_card
+    user.hand.calc_sum
   end
 
   def dealer_get_card
-    dealer.get_card deck.give_out
-    dealer.calc_sum
+    dealer.hand.get_card deck.give_out
+    dealer.hand.calc_sum
   end
 
   def next_card
     user_get_card
-    dealer_next_step if dealer.cards.size < 3
-    # false
+    dealer_next_step if dealer.hand.cards.size < 3
   end
 
   def dealer_next_step
-    dealer.sum >= 17 ? dealer.pass : dealer.get
+    dealer.hand.sum >= 17 ? dealer.pass : dealer.get
     dealer_get_card if dealer.step == :get
   end
 
   def compare_sums
-    case user.sum <=> dealer.sum
+    case user.hand.sum <=> dealer.hand.sum
     when -1
       user_loss
     when 0
