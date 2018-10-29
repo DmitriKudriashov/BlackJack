@@ -9,7 +9,7 @@ class Hand
   def calc_sum
     self.sum = 0
     cards.each { |card| self.sum += card.cost }
-    self.sum += 10 if cards.map(&:cost).sort.first == 1 && self.sum + 10 <= 21
+    self.sum += 10 if cards.map(&:cost).min == 1 && self.sum + 10 <= 21
     self.sum
   end
 
@@ -25,7 +25,7 @@ class Hand
   end
 
   def get_card(card)
-    self.cards << card
+    cards << card
   end
 
   def cards_list
@@ -39,7 +39,7 @@ class Hand
   end
 
   def open_cards
-    cards.each { |card| card.open! }
+    cards.each(&:open!)
   end
 
   private

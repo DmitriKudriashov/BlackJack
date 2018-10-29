@@ -91,12 +91,14 @@ module Logistics
   end
 
   def game_over?
-    raise interface.msg_game_over if user.bank.balance < Bank::BET || dealer.bank.balance < Bank::BET
+    user_balance = user.bank.balance
+    dealer_balance = dealer.bank.balance
+    raise 'GAME OVER!' if user_balance < Bank::BET || dealer_balance < Bank::BET
 
     false
   rescue StandardError => err
-    interface.message_ballance(user.name, user.bank.balance, err) if user.bank.balance < Bank::BET
-    interface.message_ballance(dealer.name, dealer.bank.balance, err) if dealer.bank.balance < Bank::BET
+    interface.message_ballance(user.name, user_balance, err) if user_balance < Bank::BET
+    interface.message_ballance(dealer.name, dealer_balance, err) if dealer_balance < Bank::BET
     true
   end
 end

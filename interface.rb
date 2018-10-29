@@ -16,7 +16,8 @@ class Interface
   end
 
   def gamer_info(opt = {})
-    puts "  #{opt[:gamer]}: #{opt[:name]} step: #{opt[:step]} \n cards: #{opt[:cards]} sum: #{opt[:sum]}, balance: #{opt[:balance]} "
+    puts "  #{opt[:gamer]}: #{opt[:name]} step: #{opt[:step]}"
+    puts " cards: #{opt[:cards]} sum: #{opt[:sum]}, balance: #{opt[:balance]} "
   end
 
   def control_sum(sum)
@@ -58,10 +59,6 @@ class Interface
 
   def message_ballance(name, balance, err)
     puts "\nFor #{name} Balance: #{balance}! \n #{err.message}"
-  end
-
-  def msg_game_over
-    'GAME OVER !'
   end
 
   def gets_with_esc

@@ -9,7 +9,7 @@ class Gamer
 
   def initialize(name)
     @name = name
-    @bank =  Bank.new
+    @bank = Bank.new
     validate!
   end
 
@@ -17,7 +17,7 @@ class Gamer
     self.hand = Hand.new
     self.step = :none
     self.status = :none
-    self.status_text ='NONE GAME!'
+    self.status_text = 'NONE GAME!'
   end
 
   def pass

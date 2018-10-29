@@ -49,8 +49,7 @@ module Validation
     end
 
     def format_valid(value, argument)
-      raise puts "\nValidation error! Invalid < #{value} > format!" if value.to_s !~ argument #  value.to_s --> и числа проверять!method_check
-    end
+      raise puts "\nValidation error! Invalid < #{value} > format!" if value.to_s !~ argument
 
     def type_valid(value, argument)
       raise puts "\nValidation error! Invalid type!" unless value.instance_of?(argument)

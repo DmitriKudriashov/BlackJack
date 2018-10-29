@@ -88,6 +88,6 @@ class Game
 
     new_step = @actions.keys[item - 1]
     user.make_step new_step
-    eval(@actions[new_step].last)
+    send(@actions[new_step].last)
   end
 end

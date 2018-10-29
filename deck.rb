@@ -1,4 +1,4 @@
-# deck.rb - колода карт
+# deck.rb
 class Deck
   attr_reader :cards
 
