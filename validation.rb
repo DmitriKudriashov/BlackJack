@@ -50,6 +50,7 @@ module Validation
 
     def format_valid(value, argument)
       raise puts "\nValidation error! Invalid < #{value} > format!" if value.to_s !~ argument
+    end
 
     def type_valid(value, argument)
       raise puts "\nValidation error! Invalid type!" unless value.instance_of?(argument)

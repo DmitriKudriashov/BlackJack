@@ -46,6 +46,15 @@ class Interface
     menu.each_with_index { |text, item| puts "#{item + 1}. #{text}" }
   end
 
+  def msg_game_over(user, dealer)
+    message_ballance(user.name, user.bank.balance) if user.bank.balance < Bank::BET
+    message_ballance(dealer.name, dealer.bank.balance) if dealer.bank.balance < Bank::BET
+  end
+
+  def message_ballance(name, balance)
+    puts "\nFor #{name} Balance: #{balance}! \n GAME OVER!"
+  end
+
   def start_accepted
     loop do
       puts "\n #{'=' * 50}
@@ -55,10 +64,6 @@ class Interface
       return false if char.ord == 27
       return true if char.chomp.casecmp('Y').zero?
     end
-  end
-
-  def message_ballance(name, balance, err)
-    puts "\nFor #{name} Balance: #{balance}! \n #{err.message}"
   end
 
   def gets_with_esc

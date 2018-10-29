@@ -90,15 +90,24 @@ module Logistics
     user_win if user_level == :equel21 && dealer_level != :equel21
   end
 
-  def game_over?
-    user_balance = user.bank.balance
-    dealer_balance = dealer.bank.balance
-    raise 'GAME OVER!' if user_balance < Bank::BET || dealer_balance < Bank::BET
+  # def game_over?
+  #   user_balance = user.bank.balance
+  #   dealer_balance = dealer.bank.balance
+  #   raise 'GAME OVER!' if user_balance < Bank::BET || dealer_balance < Bank::BET
 
-    false
-  rescue StandardError => err
-    interface.message_ballance(user.name, user_balance, err) if user_balance < Bank::BET
-    interface.message_ballance(dealer.name, dealer_balance, err) if dealer_balance < Bank::BET
-    true
+  #   false
+  # rescue StandardError => err
+  #   interface.message_ballance(user.name, user_balance, err) if user_balance < Bank::BET
+  #   interface.message_ballance(dealer.name, dealer_balance, err) if dealer_balance < Bank::BET
+  #   true
+  # end
+
+  def game_over?
+    if user.bank.balance < Bank::BET || dealer.bank.balance < Bank::BET
+      interface.msg_game_over(user, dealer)
+      true
+    else
+      false
+    end
   end
 end
